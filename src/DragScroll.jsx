@@ -55,10 +55,13 @@ export default class DragScroll extends React.Component {
 
   mouseMoveHandle(e) {
     if (this.state.dragging) {
-      this.refs.container.scrollLeft -=
-        (-this.lastClientX + (this.lastClientX = e.clientX));
-      this.refs.container.scrollTop -=
-        (-this.lastClientY + (this.lastClientY = e.clientY));
+      const deltaX = -this.lastClientX + (this.lastClientX = e.clientX);
+      const deltaY = -this.lastClientY + (this.lastClientY = e.clientY);
+      this.refs.container.scrollLeft -= deltaX;
+      this.refs.container.scrollTop -= deltaY;
+      if(this.props.onDrag) {
+        this.props.onDrag(deltaX, deltaY);
+      }
     }
   }
 
